@@ -1,0 +1,22 @@
+{
+  "name": "codex-quota-share-relay",
+  "version": "0.0.3",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "wrangler deploy --dry-run",
+    "dev": "wrangler dev --local --ip 127.0.0.1 --var LOCAL_DEV:true"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20260310.1",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7",
+    "wrangler": "4.72.0",
+    "vite": "6.4.3",
+    "miniflare": "4.20260310.0",
+    "esbuild": "0.27.3"
+  }
+}

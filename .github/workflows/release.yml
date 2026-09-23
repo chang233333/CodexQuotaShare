@@ -1,0 +1,60 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.19.0'
+      - name: Client tests
+        shell: pwsh
+        run: ./scripts/dev.ps1 -Action Test -TaskDirectory "$env:RUNNER_TEMP/cqs" -SdkDirectory "$env:DOTNET_ROOT"
+      - name: Relay checks
+        shell: pwsh
+        run: |
+          ./scripts/relay.ps1 -Action Install -TaskDirectory "$env:RUNNER_TEMP/cqs"
+          ./scripts/relay.ps1 -Action Typecheck -TaskDirectory "$env:RUNNER_TEMP/cqs"
+          ./scripts/relay.ps1 -Action Test -TaskDirectory "$env:RUNNER_TEMP/cqs"
+          ./scripts/relay.ps1 -Action Build -TaskDirectory "$env:RUNNER_TEMP/cqs"
+          ./scripts/integration.ps1 -TaskDirectory "$env:RUNNER_TEMP/cqs" -SdkDirectory "$env:DOTNET_ROOT"
+      - name: Package
+        shell: pwsh
+        env:
+          CQS_RELAY_URL: ${{ vars.DEFAULT_RELAY_URL }}
+          CQS_REPOSITORY: ${{ github.repository }}
+        run: |
+          if (-not $env:CQS_RELAY_URL) { throw 'Set repository variable DEFAULT_RELAY_URL before publishing.' }
+          ./scripts/dev.ps1 -Action Publish -TaskDirectory "$env:RUNNER_TEMP/cqs" -SdkDirectory "$env:DOTNET_ROOT" -ArtifactDirectory "$env:RUNNER_TEMP/cqs/release" -DefaultRelayUrl $env:CQS_RELAY_URL -GitHubRepository $env:CQS_REPOSITORY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CodexQuotaShare-win-x64
+          path: |
+            ${{ runner.temp }}/cqs/release/CodexQuotaShare-win-x64.zip
+            ${{ runner.temp }}/cqs/release/SHA256SUMS.txt
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: verify-package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: CodexQuotaShare-win-x64
+          path: release
+      - name: Create draft GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          CQS_TAG: ${{ github.ref_name }}
+        run: gh release create "$CQS_TAG" release/CodexQuotaShare-win-x64.zip release/SHA256SUMS.txt --draft --generate-notes

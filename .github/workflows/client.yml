@@ -1,0 +1,35 @@
+name: Client Phase 11
+on:
+  push:
+    paths: ['client/**', 'tests/**', 'scripts/**', 'docs/**', 'README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'global.json', 'Directory.Build.props', 'NuGet.Config', '.github/workflows/client.yml']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Core, synthetic App Server, Activity Reader and gate tests
+        shell: pwsh
+        run: ./scripts/dev.ps1 -Action Test -TaskDirectory "$env:RUNNER_TEMP/CodexQuotaShare" -SdkDirectory "$env:DOTNET_ROOT"
+      - name: Build portable client, ZIP and SHA256
+        shell: pwsh
+        run: ./scripts/dev.ps1 -Action Publish -TaskDirectory "$env:RUNNER_TEMP/CodexQuotaShare" -SdkDirectory "$env:DOTNET_ROOT" -ArtifactDirectory "$env:RUNNER_TEMP/CodexQuotaShare/artifacts/phase11"
+      - name: Verify release files
+        shell: pwsh
+        run: |
+          $root = "$env:RUNNER_TEMP/CodexQuotaShare/artifacts/phase11"
+          foreach ($file in @('CodexQuotaShare-win-x64.zip', 'SHA256SUMS.txt')) {
+            if (-not (Test-Path (Join-Path $root $file))) { throw "Missing release file: $file" }
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CodexQuotaShare-phase11-win-x64
+          path: |
+            ${{ runner.temp }}/CodexQuotaShare/artifacts/phase11/CodexQuotaShare-win-x64.zip
+            ${{ runner.temp }}/CodexQuotaShare/artifacts/phase11/SHA256SUMS.txt

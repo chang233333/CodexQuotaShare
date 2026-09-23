@@ -1,0 +1,16 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/.wrangler/
+artifacts/
+.local/
+.vs/
+*.user
+*.suo
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+*.log
+/data/

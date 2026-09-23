@@ -1,0 +1,32 @@
+name: Relay Phase 11
+on:
+  push:
+    paths: ['relay/**', 'protocol/**', 'scripts/relay.ps1', '.github/workflows/relay.yml']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  relay:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.19.0'
+      - name: Install locked development dependencies
+        shell: pwsh
+        run: ./scripts/relay.ps1 -Action Install -TaskDirectory "$env:RUNNER_TEMP/CodexQuotaShare"
+      - name: Typecheck
+        shell: pwsh
+        run: ./scripts/relay.ps1 -Action Typecheck -TaskDirectory "$env:RUNNER_TEMP/CodexQuotaShare"
+      - name: Protocol, WebSocket, persistence and hibernation tests
+        shell: pwsh
+        run: ./scripts/relay.ps1 -Action Test -TaskDirectory "$env:RUNNER_TEMP/CodexQuotaShare"
+      - name: Bundle only (no deployment)
+        shell: pwsh
+        run: ./scripts/relay.ps1 -Action Build -TaskDirectory "$env:RUNNER_TEMP/CodexQuotaShare"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CodexQuotaShare-phase11-relay
+          path: ${{ runner.temp }}/CodexQuotaShare/artifacts/phase11/relay

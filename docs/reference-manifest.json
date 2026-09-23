@@ -1,0 +1,122 @@
+{
+  "inspectedAt": "2026-09-18",
+  "note": "User-provided extracted source snapshots; upstream commit is unknown. Hashes identify inspected local bytes, not an upstream commit.",
+  "projects": [
+    {
+      "id": "quota",
+      "url": "https://github.com/EvanHexX/quota-scope",
+      "license": "MIT",
+      "snapshot": "extracted archive; commit unknown",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "a18290a088a5249232c1e2fee22312038b25dc31251e99542f713583abe5b8f4"
+        },
+        {
+          "path": "README.md",
+          "sha256": "aa015a071146229838f5e1b1d2597b379751c95df29ea4d581b58f6cc5659cbf"
+        },
+        {
+          "path": "app-winui/QuotaScope.WinUI.csproj",
+          "sha256": "0e4b6aade505a1ca11f1ad909efdcdb9c5f6733e09af4c46e05a432f6b910cbd"
+        },
+        {
+          "path": "app/Providers/Codex/CodexAppServerClient.cs",
+          "sha256": "7ebb10c8ee98b3dbc8283da53f869413a91afc8e98cbd92bd04d6bc86c174e4b"
+        },
+        {
+          "path": "app/Providers/Codex/RateLimitMapper.cs",
+          "sha256": "ce8c3b16d741f24dc9c92b0348156e21c77fb175decc9b5ef43be6a805bfff9e"
+        },
+        {
+          "path": "app/Providers/Codex/CodexCommandResolver.cs",
+          "sha256": "a09d939206cc6ef9d0481f10bb6ed0b7db61f7f13ca080845663bb798c80d806"
+        },
+        {
+          "path": "app-winui/Tray/TrayIconHost.cs",
+          "sha256": "72425ec12d766e8fc3ca26681262c9398799bc517f74028394084ff7a96cae8f"
+        },
+        {
+          "path": "app-winui/Autostart.cs",
+          "sha256": "f68f4e20fe123b6ba80683fa4b826316ea2e73be9f2af89a13455f2db07ab567"
+        }
+      ]
+    },
+    {
+      "id": "meter",
+      "url": "https://github.com/srmdn/codex-meter",
+      "license": "MIT",
+      "snapshot": "0.6.0 (directory and package.json)",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "d27b57ebe51777d4bf1c54f18df94ddb34a42267114c30b9cabc671d43a3f274"
+        },
+        {
+          "path": "package.json",
+          "sha256": "8e9dd51ca27b1eb51d8da895895e02427b5ba2beb0f26d9bc58d6e0c3eff809b"
+        },
+        {
+          "path": "src/session-history.ts",
+          "sha256": "e58fc1926a9cbdbca2a74fec7d40fa1c202a57ac971da3412fe796885169cd59"
+        },
+        {
+          "path": "tests/fixtures/rate-limits.synthetic.json",
+          "sha256": "3e1634f5b133587bf45817556a5c47c1e954733b59d15ef6055743f0fd074f73"
+        },
+        {
+          "path": "tests/fixtures/sessions.synthetic/2026/07/01/rollout-a.jsonl",
+          "sha256": "617db13af5421905d42fdd0736d0a547d21cf7436ca1c51e93707502a6d67852"
+        }
+      ]
+    },
+    {
+      "id": "wave",
+      "url": "https://github.com/waveshareteam/codex-meter",
+      "license": "MIT",
+      "snapshot": "extracted archive; commit unknown",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "ebb4296e0e7e2c21403aacac04539fd922a417e5c71a6ba7ccf65168f9d54a5e"
+        },
+        {
+          "path": "package.json",
+          "sha256": "28e2c7d8806afee5d083e0ff29d21f5153b9e8a8a48fcdfc2d35469eda16fcd5"
+        },
+        {
+          "path": "src/request-access.mjs",
+          "sha256": "3b9d32a391f8af5120dcdc4c5670a3ad61a55f83a327b92c268717b4836830ab"
+        },
+        {
+          "path": "src/app-server-client.mjs",
+          "sha256": "cf23af24c00c6637be35ed8ca01083f9007f57958d7d7af45ab0e83cf1c5fdbb"
+        }
+      ]
+    },
+    {
+      "id": "cloud",
+      "url": "https://github.com/cloudflare/workers-chat-demo",
+      "license": "BSD-3-Clause",
+      "snapshot": "extracted archive; commit unknown",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "ec705c1e2549a0d60f489a033e8c877bbfdb60e43e95422f62ce2892229354ba"
+        },
+        {
+          "path": "README.md",
+          "sha256": "5ee67d5aaf631a3d6439039c7db67a141197631658ae53aa7b30c39ad6b9fa44"
+        },
+        {
+          "path": "src/chat.mjs",
+          "sha256": "314c74c0ab057758db06bd430940193074d3f15f6e1e1b8bfb2ccccbceb89030"
+        },
+        {
+          "path": "wrangler.toml",
+          "sha256": "3292ab1a9b3bafbf1d26c300196532266973bea932db16ffb5688c6ee758ea21"
+        }
+      ]
+    }
+  ]
+}
